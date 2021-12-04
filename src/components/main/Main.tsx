@@ -8,6 +8,15 @@ const Main: React.FC = () => {
       <SelectionCard>
         <Post />
       </SelectionCard>
+      <SelectionCard>
+        <Post />
+      </SelectionCard>
+      <SelectionCard>
+        <Post />
+      </SelectionCard>
+      <SelectionCard>
+        <Post />
+      </SelectionCard>
     </BackgroundWrapper>
   );
 };

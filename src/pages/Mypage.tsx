@@ -1,12 +1,12 @@
 import React from 'react';
 import Header from '../components/header/Header';
-import Main from '../components/main/Main';
+import Mypage from '../components/mypage/Mypage';
 
 const Homepage: React.FC = () => {
   return (
     <>
       <Header />
-      <Main />
+      <Mypage />
     </>
   );
 };

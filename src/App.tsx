@@ -1,13 +1,14 @@
 import React from 'react';
-import Header from './components/header/Header';
+import { Route, Routes } from 'react-router-dom';
 import Homepage from './pages/Homepage';
+import Mypage from './pages/Mypage';
 
 const App: React.FC = () => {
   return (
-    <>
-      <Header />
-      <Homepage />
-    </>
+    <Routes>
+      <Route path="/" element={<Homepage />} />
+      <Route path="/mypage" element={<Mypage />} />
+    </Routes>
   );
 };
 
