@@ -1,14 +1,12 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Selection from '../components/selection/Selection';
+import Main from '../components/main/Main';
 
 const Homepage: React.FC = () => {
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={<Selection />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<Main />} />
+    </Routes>
   );
 };
 
