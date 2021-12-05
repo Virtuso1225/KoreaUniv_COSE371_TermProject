@@ -19,12 +19,24 @@ export const ReviewBlock = styled.div`
   flex-direction: column;
 `;
 
+export const RowWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 17px;
+`;
+
+export const RateWrapper = styled.div`
+  display: flex;
+  margin-right: 20px;
+  align-items: center;
+`;
+
 export const UserId = styled.div`
   color: #1d1d1d;
   font-family: 'SCDreamMedium';
   font-size: 15px;
   margin-left: 20px;
-  margin-top: 17px;
 `;
 
 export const ReviewContent = styled.div`

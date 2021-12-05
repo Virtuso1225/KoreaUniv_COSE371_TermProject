@@ -1,18 +1,23 @@
 import React from 'react';
 import MypageOption from './MypageOption';
-import { BottomWrapper, PostPreview } from './MypagePostStyle';
-import preveiw from '../../assets/img/profile.jpg';
+import { BottomWrapper } from './MypagePostStyle';
+import preview from '../../assets/img/profile.jpg';
+import ModalPost from '../modalpost/ModalPost';
 
 const MypagePost: React.FC = () => {
+  const dummyList = [
+    { id: 0, img: preview },
+    { id: 1, img: preview },
+  ];
   return (
     <>
       <MypageOption />
       <BottomWrapper>
-        <PostPreview src={preveiw} />
-        <PostPreview src={preveiw} />
-        <PostPreview src={preveiw} />
-        <PostPreview src={preveiw} />
-        <PostPreview src={preveiw} />
+        {dummyList.map((content) => (
+          <div key={content.id}>
+            <ModalPost id={content.id} />
+          </div>
+        ))}
       </BottomWrapper>
     </>
   );

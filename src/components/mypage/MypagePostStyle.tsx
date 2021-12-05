@@ -20,4 +20,5 @@ export const PostPreview = styled.img`
   width: 378px;
   height: 378px;
   margin: 10px;
+  cursor: pointer;
 `;
