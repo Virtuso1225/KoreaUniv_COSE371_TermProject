@@ -52,7 +52,7 @@ const ModalPost: React.FC<contentProps> = (props) => {
             alignItems: 'center',
           }}
         >
-          <Post />
+          {/* <Post /> */}
         </div>
       </Modal>
       <PostPreview src={preview} onClick={onClick} />

@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
   user_models
     .getUsers()
     .then((response) => {
-      res.status(200).send(response);
+      res.status(200).send(response['rows']);
     })
     .catch((error) => {
       res.status(500).send(error);

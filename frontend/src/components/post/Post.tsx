@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdPlace } from 'react-icons/md';
 import { BsCalendarDate } from 'react-icons/bs';
@@ -22,7 +22,34 @@ import {
 import { Photographer, Model } from './PostInfo';
 import profile from '../../assets/img/profile.jpg';
 
-const Post: React.FC = () => {
+interface UserProps {
+  id: string;
+  password: string;
+  type: 'Model' | 'Photographer';
+}
+interface Users {
+  users: UserProps[];
+}
+const Post: React.FC<Users> = ({ users }: Users) => {
+  const [model, setModel] = useState<UserProps>();
+  const [photographer, setPhotographer] = useState<UserProps>();
+
+  const getUsers = () => {
+    console.log(users);
+    if (users[0] !== undefined) {
+      if (users[0].type === 'Model') {
+        setModel(users[0]);
+        setPhotographer(users[1]);
+      } else {
+        setPhotographer(users[0]);
+        setModel(users[1]);
+      }
+    }
+  };
+  useEffect(() => {
+    getUsers();
+  }, []);
+  console.log(model);
   return (
     <>
       <PostCard>
