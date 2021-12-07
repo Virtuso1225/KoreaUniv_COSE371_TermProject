@@ -1,18 +1,55 @@
-import React, { useState } from 'react';
+/* eslint-disable camelcase */
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { PostPreview } from '../mypage/MypagePostStyle';
-import preview from '../../assets/img/profile.jpg';
 import Post from '../post/Post';
 
-interface contentProps {
-  id: number;
+interface postpreviewProps {
+  post_id: string;
+  picture: string;
 }
-const ModalPost: React.FC<contentProps> = (props) => {
-  const { id } = props;
+interface postProps {
+  post_id: number;
+  writer_id: string;
+  title: string;
+  content: string;
+  picture: string;
+  timestamp: Date;
+  date: string;
+  m_id: string;
+  m_name: string;
+  m_area: string;
+  m_gender: string;
+  m_img: string;
+  p_id: string;
+  p_name: string;
+  p_area: string;
+  p_career: string;
+  p_img: string;
+  place_name: string;
+  camera_name: string;
+}
+
+const ModalPost: React.FC<postpreviewProps> = ({
+  post_id,
+  picture,
+}: postpreviewProps) => {
+  const [posts, setPosts] = useState<postProps[]>([]);
+  const [init, setInit] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const onClick = () => {
     setIsOpen(true);
   };
+  useEffect(() => {
+    fetch(`http://localhost:3001/post/${post_id}`)
+      .then((res) => res.json())
+      .then((data: postProps[]) => {
+        setPosts(data);
+      })
+      .then(() => {
+        setInit(true);
+      });
+  }, []);
   return (
     <>
       <Modal
@@ -52,10 +89,10 @@ const ModalPost: React.FC<contentProps> = (props) => {
             alignItems: 'center',
           }}
         >
-          {/* <Post /> */}
+          {init ? <Post {...posts[0]} /> : ''}
         </div>
       </Modal>
-      <PostPreview src={preview} onClick={onClick} />
+      <PostPreview src={picture} onClick={onClick} />
     </>
   );
 };

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdPlace } from 'react-icons/md';
@@ -22,74 +23,133 @@ import {
 import { Photographer, Model } from './PostInfo';
 import profile from '../../assets/img/profile.jpg';
 
-interface UserProps {
-  id: string;
-  password: string;
-  type: 'Model' | 'Photographer';
+interface postProps {
+  post_id: number;
+  writer_id: string;
+  title: string;
+  content: string;
+  picture: string;
+  timestamp: Date;
+  date: string;
+  m_id: string;
+  m_name: string;
+  m_area: string;
+  m_gender: string;
+  m_img: string;
+  p_id: string;
+  p_name: string;
+  p_area: string;
+  p_career: string;
+  p_img: string;
+  place_name: string;
+  camera_name: string;
 }
-interface Users {
-  users: UserProps[];
-}
-const Post: React.FC<Users> = ({ users }: Users) => {
-  const [model, setModel] = useState<UserProps>();
-  const [photographer, setPhotographer] = useState<UserProps>();
 
-  const getUsers = () => {
-    console.log(users);
-    if (users[0] !== undefined) {
-      if (users[0].type === 'Model') {
-        setModel(users[0]);
-        setPhotographer(users[1]);
-      } else {
-        setPhotographer(users[0]);
-        setModel(users[1]);
-      }
+interface writerProps {
+  w_id: string;
+  w_img: string;
+  w_name: string;
+}
+
+interface modelProps {
+  m_id: string;
+  m_name: string;
+  m_area: string;
+  m_gender: string;
+  m_img: string;
+}
+
+interface photographerProps {
+  p_id: string;
+  p_name: string;
+  p_area: string;
+  p_career: string;
+  p_img: string;
+}
+
+const Post: React.FC<postProps> = ({
+  post_id,
+  writer_id,
+  title,
+  content,
+  picture,
+  timestamp,
+  date,
+  m_id,
+  m_name,
+  m_area,
+  m_gender,
+  m_img,
+  p_id,
+  p_name,
+  p_area,
+  p_career,
+  p_img,
+  place_name,
+  camera_name,
+}: postProps) => {
+  const [writer, setWriter] = useState<writerProps>();
+  const [model, setModel] = useState<modelProps>();
+  const [photographer, setPhotographer] = useState<photographerProps>();
+
+  const initWriter = () => {
+    if (writer_id === p_id) {
+      setWriter({ w_id: p_id, w_img: p_img, w_name: p_name });
+    } else {
+      setWriter({ w_id: m_id, w_img: m_img, w_name: m_name });
     }
   };
+
+  const initModel = () => {
+    setModel({ m_id, m_name, m_area, m_gender, m_img });
+  };
+
+  const initPhotographer = () => {
+    setPhotographer({ p_id, p_name, p_area, p_career, p_img });
+  };
   useEffect(() => {
-    getUsers();
+    initWriter();
+    initModel();
+    initPhotographer();
   }, []);
-  console.log(model);
   return (
     <>
       <PostCard>
         <PostHeader>
-          <UserImg src={profile} />
-          <Link to="/mypage" style={{ textDecoration: 'none' }}>
-            <UserName>차승민</UserName>
+          <UserImg src={writer?.w_img} />
+          <Link to={`/${writer?.w_id}`} style={{ textDecoration: 'none' }}>
+            <UserName>{writer?.w_id}</UserName>
           </Link>
         </PostHeader>
-        <PostImg src={profile} />
+        <PostImg src={picture} />
       </PostCard>
       <PostCommentCard>
         <PostCommentHeader>
-          <Link to="/mypage" style={{ textDecoration: 'none' }}>
-            <UserName>차승민</UserName>
+          <Link to={`/${writer?.w_id}`} style={{ textDecoration: 'none' }}>
+            <UserName>{writer?.w_id}</UserName>
           </Link>
-          <PostTitle>갈대밭 노을</PostTitle>
+          <PostTitle>{title}</PostTitle>
         </PostCommentHeader>
         <PostContentWrapper>
           <RowWrapper>
             <MdPlace size="20" />
-            <PlaceTitle>울산 태화강</PlaceTitle>
+            <PlaceTitle>{place_name}</PlaceTitle>
           </RowWrapper>
           <RowWrapper>
             <BsCalendarDate size="20" />
-            <PlaceTitle>2020.08.04</PlaceTitle>
+            <PlaceTitle>{date}</PlaceTitle>
           </RowWrapper>
           <RowWrapper>
             <AiFillCamera size="20" />
-            <PlaceTitle>Iphone 11pro</PlaceTitle>
+            <PlaceTitle>{camera_name}</PlaceTitle>
           </RowWrapper>
         </PostContentWrapper>
       </PostCommentCard>
       <ColumnWrapper>
         <PhotographerCard>
-          <Photographer />
+          {photographer ? <Photographer {...photographer} /> : ''}
         </PhotographerCard>
-        <ModelCard>
-          <Model />
-        </ModelCard>
+        <ModelCard>{model ? <Model {...model} /> : ''}</ModelCard>
       </ColumnWrapper>
     </>
   );

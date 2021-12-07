@@ -8,8 +8,9 @@ import Reservationpage from './pages/Reservationpage';
 const App: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<Homepage />} />
-      <Route path="/mypage/*" element={<MypageMain />} />
+      <Route path="/*" element={<Homepage />} />
+      <Route path="/create/*" element={<Homepage />} />
+      <Route path="/:user_id/*" element={<MypageMain />} />
       <Route path="/reserve" element={<Reservationpage />} />
       <Route path="/place" element={<Hotplacepage />} />
     </Routes>

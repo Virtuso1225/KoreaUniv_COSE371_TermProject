@@ -41,6 +41,18 @@ export const PageLink = styled(Link)`
   text-decoration: none;
 `;
 
+export const MypageLink = styled.div`
+  font-size: 18px;
+  color: #919191;
+  font-family: 'SCDreamMedium';
+  :hover {
+    color: #1d1d1d;
+    transition: 1s;
+  }
+  text-decoration: none;
+  cursor: pointer;
+`;
+
 export const Search = styled.input`
   font-size: 18px;
   color: #919191;

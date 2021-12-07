@@ -17,8 +17,108 @@ app.use(function (req, res, next) {
 
 app.get("/", (req, res) => {
   user_models
-    .getUsers()
+    .getPosts()
     .then((response) => {
+      res.status(200).send(response['rows']);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get("/rate/:user_id", (req, res) => {
+  user_models
+    .getRate(req.params.user_id)
+    .then((response) => {
+      res.status(200).send(response['rows']);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get("/post_num/:user_id", (req, res) => {
+  user_models
+    .getPostNum(req.params.user_id)
+    .then((response) => {
+      res.status(200).send(response['rows']);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get("/my_post/:user_id", (req, res) => {
+  user_models
+    .getMyPost(req.params.user_id)
+    .then((response) => {
+      res.status(200).send(response['rows']);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get("/post/:post_id", (req, res) => {
+  user_models
+    .getMyPosts(req.params.post_id)
+    .then((response) => {
+      res.status(200).send(response['rows']);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get("/profile/:user_id", (req, res) => {
+  user_models
+    .getMyProfile(req.params.user_id)
+    .then((response) => {
+      res.status(200).send(response['rows']);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get("/type/:user_id", (req, res) => {
+  user_models
+    .getType(req.params.user_id)
+    .then((response) => {
+      res.status(200).send(response['rows']);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get("/review/:user_id", (req, res) => {
+  user_models
+    .getComments(req.params.user_id)
+    .then((response) => {
+      res.status(200).send(response['rows']);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get("/reserve/:date", (req, res) => {
+  user_models
+    .getProfile_by_date(req.params.date)
+    .then((response) => {
+      res.status(200).send(response['rows']);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get("/place", (req, res) => {
+  user_models
+    .getHotplace()
+    .then((response) => {
+      console.log(response);
       res.status(200).send(response['rows']);
     })
     .catch((error) => {
