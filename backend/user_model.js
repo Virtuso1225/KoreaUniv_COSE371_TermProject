@@ -10,7 +10,7 @@ const pool = new Pool({
 const getPosts = () => {
   return new Promise(function (resolve, reject) {
     pool.query(
-      `select post_id, writer_id, title, P.content, picture, P.timestamp, pic_info.date,
+      `select post_id, writer_id, title, picture, P.timestamp, pic_info.date,
     model.id as m_id, model.name as m_name, model.area as m_area, model.gender as m_gender, model.profile_img as m_img,
     photographer.id as p_id, photographer.name as p_name, photographer.area as p_area, photographer.career as p_career, photographer.profile_img as p_img,
     photo_place.place_name, camera.camera_name
@@ -92,7 +92,7 @@ const getMyPost = (user_id) => {
 const getMyPosts = (user_id) => {
   return new Promise(function (resolve, reject) {
     pool.query(
-      `select post_id, writer_id, title, P.content, picture, P.timestamp, pic_info.date,
+      `select post_id, writer_id, title, picture, P.timestamp, pic_info.date,
     model.id as m_id, model.name as m_name, model.area as m_area, model.gender as m_gender, model.profile_img as m_img,
     photographer.id as p_id, photographer.name as p_name, photographer.area as p_area, photographer.career as p_career, photographer.profile_img as p_img,
     photo_place.place_name, camera.camera_name
@@ -224,13 +224,13 @@ const postCamera = (body) => {
   return new Promise(function (resolve, reject) {
     const { camera, manu } = body;
     pool.query(
-      `insert into Camera values (DEFAULT, $1, $2)`,
+      `insert into Camera values (DEFAULT, $1, $2) returning camera_id`,
       [camera, manu],
       (error, results) => {
         if (error) {
           reject(error);
         }
-        resolve('camera inserted');
+        resolve(results);
       }
     );
   });
@@ -303,14 +303,14 @@ const postPicInfo = (body) => {
      )
      insert into Pic_info (photographer_id, model_id, place_id, date, camera_id)
      select $4, $5, p_id, $6, c_id
-     from c_id_table, p_id_table`,
+     from c_id_table, p_id_table returning pic_info_id`,
       [camera, manu, place, photographer, model, date],
       (error, results) => {
         if (error) {
           console.log(error);
           reject(error);
         }
-        resolve('picture info inserted');
+        resolve(results);
       }
     );
   });

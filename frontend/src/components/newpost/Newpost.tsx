@@ -74,8 +74,8 @@ const Newpost: React.FC = () => {
         manu,
       }),
     })
-      .then((response) => {
-        fetch('http://localhost:3001/create/pictureinfo', {
+      .then(() => {
+        return fetch('http://localhost:3001/create/pictureinfo', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -88,19 +88,13 @@ const Newpost: React.FC = () => {
             manu,
             date,
           }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            // setPId(data[0]?.place_id);
-            console.log(data[0]);
-          });
-        return response;
+        }).then((res) => {
+          return res;
+        });
       })
-      .then((response) => {
-        return response.text();
-      })
-      .then((data) => {
-        alert(data);
+      .then((response) => response.json())
+      .then((data: picInfoProps[]) => {
+        alert(data[0].pic_info_id);
       });
   };
 
