@@ -23,6 +23,7 @@ interface picInfoProps {
 
 const Newpost: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [title, setTitle] = useState('');
   const [photographer, setPhotographer] = useState('');
   const [model, setModel] = useState('');
   const [place, setPlace] = useState('');
@@ -72,6 +73,7 @@ const Newpost: React.FC = () => {
         date,
         camera,
         manu,
+        pic,
       }),
     })
       .then(() => {
@@ -93,8 +95,25 @@ const Newpost: React.FC = () => {
         });
       })
       .then((response) => response.json())
-      .then((data: picInfoProps[]) => {
-        alert(data[0].pic_info_id);
+      .then((data: picInfoProps[]) => data[0].pic_info_id)
+      .then((data) => {
+        return fetch('http://localhost:3001/create/post', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            title,
+            pic,
+            data,
+            place,
+          }),
+        }).then((res) => {
+          return res;
+        });
+      })
+      .then(() => {
+        window.location.href = '/';
       });
   };
 
@@ -116,6 +135,13 @@ const Newpost: React.FC = () => {
               파일을 선택
             </FileButton>
           </form>
+          <Inputs
+            placeholder="게시물 제목"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setTitle(e.target.value);
+            }}
+            value={title}
+          />
           <Inputs
             placeholder="작가 아이디"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

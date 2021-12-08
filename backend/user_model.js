@@ -18,7 +18,7 @@ const getPosts = () => {
     inner join model on pic_info.model_id=model.id 
     inner join photographer on pic_info.photographer_id = photographer.id
     inner join photo_place using (place_id)
-    inner join camera using (camera_id)`,
+    inner join camera using (camera_id) order by timestamp desc`,
       (error, results) => {
         if (error) {
           reject(error);
@@ -76,7 +76,7 @@ const getMyPost = (user_id) => {
     from post 
     where (
        post.writer_id = $1
-    )
+    ) order by timestamp desc
     `,
       [user_id],
       (error, results) => {
@@ -101,7 +101,7 @@ const getMyPosts = (user_id) => {
     inner join photographer on pic_info.photographer_id = photographer.id
     inner join photo_place using (place_id)
     inner join camera using (camera_id)
-    where post_id = $1
+    where post_id = $1 
     `,
       [user_id],
       (error, results) => {
@@ -316,6 +316,60 @@ const postPicInfo = (body) => {
   });
 };
 
+const inserPost = (body) => {
+  return new Promise(function (resolve, reject) {
+    const { title, pic, data } = body;
+    pool.query(
+      `insert into Post values (DEFAULT, 'char_kak', $1, $2, $3, CURRENT_TIMESTAMP)`,
+      [title, pic, data],
+      (error, results) => {
+        if (error) {
+          console.log(error);
+          reject(error);
+        }
+        resolve('post inserted!');
+      }
+    );
+  });
+};
+
+const updatePlaces = (body) => {
+  return new Promise(function (resolve, reject) {
+    const { place } = body;
+    pool.query(
+      `with p_id_table as(
+        select place_id as p_id from photo_place where place_name = $1
+      )
+      update Photo_place set post_num = post_num + 1 from p_id_table where place_id=p_id`,
+      [place],
+      (error, results) => {
+        if (error) {
+          console.log(error);
+          reject(error);
+        }
+        resolve('all inserted!');
+      }
+    );
+  });
+};
+
+const deletePost = (post_id) => {
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `delete from post
+      where post_id = $1`,
+      [post_id],
+      (error, results) => {
+        if (error) {
+          console.log(error);
+          reject(error);
+        }
+        resolve(results);
+      }
+    );
+  });
+};
+
 module.exports = {
   getPosts,
   getRate,
@@ -333,4 +387,7 @@ module.exports = {
   postPlace,
   checkPicInfo,
   postPicInfo,
+  inserPost,
+  updatePlaces,
+  deletePost,
 };

@@ -11,7 +11,6 @@ interface postProps {
   post_id: number;
   writer_id: string;
   title: string;
-  content: string;
   picture: string;
   timestamp: Date;
   date: string;

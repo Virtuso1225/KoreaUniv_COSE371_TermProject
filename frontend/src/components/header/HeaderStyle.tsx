@@ -19,7 +19,7 @@ export const HeaderWrapper = styled.div`
   padding-right: 50px;
 `;
 
-export const HeaderTitle = styled(Link)`
+export const HeaderTitle = styled.div`
   font-size: 28px;
   color: #919191;
   font-family: 'SCDreamBold';
@@ -28,6 +28,7 @@ export const HeaderTitle = styled(Link)`
     transition: 1s;
   }
   text-decoration: none;
+  cursor: pointer;
 `;
 
 export const PageLink = styled(Link)`

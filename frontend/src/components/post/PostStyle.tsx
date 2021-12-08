@@ -25,6 +25,7 @@ export const PostHeader = styled.div`
   height: 70px;
   align-items: center;
   padding-left: 30px;
+  flex-direction: row;
 `;
 
 export const PostCommentHeader = styled.div`
@@ -113,4 +114,14 @@ export const ModelCard = styled.div`
 export const ColumnWrapper = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+export const Delete = styled.div`
+  display: flex;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 20px;
+  font-family: 'SCDreamRegular';
+  position: absolute;
+  left: 750px;
 `;

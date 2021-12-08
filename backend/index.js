@@ -4,8 +4,7 @@ const port = 3001;
 
 const user_models = require('./user_model');
 
-app.use(express.json());
-app.use(express.json({ limit: '100mb' }));
+app.use(express.json({ limit: '50mb' }));
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
@@ -186,6 +185,44 @@ app.post('/create/pictureinfo', (req, res) => {
     })
     .then((response) => {
       res.status(200).send(response['rows']);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.post('/create/post', (req, res) => {
+  user_models
+    .inserPost(req.body)
+    .then(() => {
+      return user_models.updatePlaces(req.body).then((response) => {
+        return response;
+      });
+    })
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.post('/update/places', (req, res) => {
+  user_models
+    .updatePlaces(req.body)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.delete('/delete/:post_id', (req, res) => {
+  user_models
+    .deletePost(req.params.post_id)
+    .then((response) => {
+      res.status(200).send(response);
     })
     .catch((error) => {
       res.status(500).send(error);

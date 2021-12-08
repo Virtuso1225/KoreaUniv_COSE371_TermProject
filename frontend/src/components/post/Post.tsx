@@ -19,6 +19,7 @@ import {
   UserImg,
   UserName,
   ModelCard,
+  Delete,
 } from './PostStyle';
 import { Photographer, Model } from './PostInfo';
 import profile from '../../assets/img/profile.jpg';
@@ -27,7 +28,6 @@ interface postProps {
   post_id: number;
   writer_id: string;
   title: string;
-  content: string;
   picture: string;
   timestamp: Date;
   date: string;
@@ -71,7 +71,6 @@ const Post: React.FC<postProps> = ({
   post_id,
   writer_id,
   title,
-  content,
   picture,
   timestamp,
   date,
@@ -107,6 +106,14 @@ const Post: React.FC<postProps> = ({
   const initPhotographer = () => {
     setPhotographer({ p_id, p_name, p_area, p_career, p_img });
   };
+
+  const deleteHandler = () => {
+    fetch(`http://localhost:3001/delete/${post_id}`, {
+      method: 'DELETE',
+    }).then(() => {
+      window.location.href = '/';
+    });
+  };
   useEffect(() => {
     initWriter();
     initModel();
@@ -120,6 +127,11 @@ const Post: React.FC<postProps> = ({
           <Link to={`/${writer?.w_id}`} style={{ textDecoration: 'none' }}>
             <UserName>{writer?.w_id}</UserName>
           </Link>
+          {writer?.w_id === 'char_kak' ? (
+            <Delete onClick={deleteHandler}>x</Delete>
+          ) : (
+            ''
+          )}
         </PostHeader>
         <PostImg src={picture} />
       </PostCard>
