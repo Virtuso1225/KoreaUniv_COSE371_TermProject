@@ -270,10 +270,17 @@ const postPlace = (body) => {
 
 const checkPicInfo = (body) => {
   return new Promise(function (resolve, reject) {
-    const { photographer, model, pId, cId, date } = body;
+    const { photographer, model, place, camera, manu, date } = body;
     pool.query(
-      `select pic_info_id from Pic_info where photographer_id = $1 and model_id = $2 and place_id=$3 and date = $5 and camera_id = $4`,
-      [photographer, model, pId, cId, date],
+      `with c_id_table as(
+        select camera_id as c_id from camera where Camera_name = $1 and manufacture = $2
+      ),
+      p_id_table as(
+         select place_id as p_id from photo_place where place_name = $3
+      )
+      select pic_info_id as i_id from pic_info, c_id_table, p_id_table where photographer_id = $4 and model_id = $5 and place_id=p_id and date = $6 and camera_id = c_id
+      `,
+      [camera, manu, place, photographer, model, date],
       (error, results) => {
         if (error) {
           reject(error);
@@ -286,12 +293,21 @@ const checkPicInfo = (body) => {
 
 const postPicInfo = (body) => {
   return new Promise(function (resolve, reject) {
-    const { photographer, model, pId, cId, date } = body;
+    const { photographer, model, place, camera, manu, date } = body;
     pool.query(
-      `insert into Pic_info values(DEFAULT, $1, $2, $3, $5, $4)`,
-      [photographer, model, pId, cId, date],
+      `with c_id_table as(
+        select camera_id as c_id from camera where Camera_name = $1 and manufacture = $2
+     ),
+     p_id_table as(
+         select place_id as p_id from photo_place where place_name = $3
+     )
+     insert into Pic_info (photographer_id, model_id, place_id, date, camera_id)
+     select $4, $5, p_id, $6, c_id
+     from c_id_table, p_id_table`,
+      [camera, manu, place, photographer, model, date],
       (error, results) => {
         if (error) {
+          console.log(error);
           reject(error);
         }
         resolve('picture info inserted');

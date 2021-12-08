@@ -75,36 +75,23 @@ const Newpost: React.FC = () => {
       }),
     })
       .then((response) => {
-        fetch('http://localhost:3001/create/place', {
+        fetch('http://localhost:3001/create/pictureinfo', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
+            photographer,
+            model,
             place,
-          }),
-        })
-          .then((res) => res.json())
-          .then((data: placeProps[]) => {
-            setPId(data[0]?.place_id);
-            console.log(data[0]);
-          });
-        return response;
-      })
-      .then((response) => {
-        fetch('http://localhost:3001/create/camera', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
             camera,
             manu,
+            date,
           }),
         })
           .then((res) => res.json())
-          .then((data: cameraProps[]) => {
-            setCId(data[0]?.camera_id);
+          .then((data) => {
+            // setPId(data[0]?.place_id);
             console.log(data[0]);
           });
         return response;
@@ -114,55 +101,8 @@ const Newpost: React.FC = () => {
       })
       .then((data) => {
         alert(data);
-      })
-      .then(() => setInserted(true));
+      });
   };
-
-  useEffect(() => {
-    if (inserted) {
-      console.log(inserted);
-      fetch('http://localhost:3001/create/pictureinfo', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          photographer,
-          model,
-          pId,
-          cId,
-          date,
-        }),
-      })
-        .then((response) => {
-          fetch('http://localhost:3001/create/picinfoid', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              photographer,
-              model,
-              pId,
-              cId,
-              date,
-            }),
-          })
-            .then((res) => res.json())
-            .then((data: picInfoProps[]) => {
-              setPicInfoId(data[0]);
-              console.log(data[0]);
-            });
-          return response;
-        })
-        .then((response) => {
-          return response.text();
-        })
-        .then((data) => {
-          alert(data);
-        });
-    }
-  }, [inserted]);
 
   return (
     <>

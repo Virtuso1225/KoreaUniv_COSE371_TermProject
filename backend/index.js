@@ -139,7 +139,6 @@ app.post('/create/init', (req, res) => {
             res.status(500).send(error);
           });
       }
-      return response;
     })
     .then((response) => {
       user_models.checkPlace(req.body).then((response) => {
@@ -156,32 +155,12 @@ app.post('/create/init', (req, res) => {
       return response;
     })
     .then((response) => {
-      res.status(200).send(response['rows']);
+      console.log(response);
+      res.status(200).send('successfully init!');
     })
     .catch((error) => {
-      res.status(500).send(error);
-    });
-});
-
-app.post('/create/place', (req, res) => {
-  user_models
-    .checkPlace(req.body)
-    .then((response) => {
-      console.log(response['rows']);
-      res.status(200).send(response['rows']);
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
-});
-
-app.post('/create/camera', (req, res) => {
-  user_models
-    .checkCamera(req.body)
-    .then((response) => {
-      res.status(200).send(response['rows']);
-    })
-    .catch((error) => {
+      console.log('line 161');
+      console.log(error);
       res.status(500).send(error);
     });
 });
@@ -190,7 +169,9 @@ app.post('/create/pictureinfo', (req, res) => {
   user_models
     .checkPicInfo(req.body)
     .then((response) => {
+      console.log('line 170');
       if (!response['rows'][0]) {
+        console.log('line 172');
         user_models
           .postPicInfo(req.body)
           .then((response) => console.log(response))
@@ -200,17 +181,6 @@ app.post('/create/pictureinfo', (req, res) => {
       }
       return response;
     })
-    .then((response) => {
-      res.status(200).send(response['rows']);
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
-});
-
-app.post('/create/picinfoid', (req, res) => {
-  user_models
-    .checkPicInfo(req.body)
     .then((response) => {
       res.status(200).send(response['rows']);
     })
