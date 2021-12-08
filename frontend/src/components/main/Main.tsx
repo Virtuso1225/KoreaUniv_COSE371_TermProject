@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
+import { AiOutlinePlus } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import Newpost from '../newpost/Newpost';
+import { NewpostButton } from '../newpost/NewpostStyle';
 import Post from '../post/Post';
 import { BackgroundWrapper, SelectionCard } from './MainStyle';
 
@@ -48,7 +50,9 @@ const Main: React.FC = () => {
         </SelectionCard>
       ))}
       <Link to="/create">
-        <Newpost />
+        <NewpostButton>
+          <AiOutlinePlus size="20" color="black" />
+        </NewpostButton>
       </Link>
     </BackgroundWrapper>
   );

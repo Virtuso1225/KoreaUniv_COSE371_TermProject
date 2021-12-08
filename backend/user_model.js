@@ -1,15 +1,16 @@
-const Pool = require("pg").Pool;
+const Pool = require('pg').Pool;
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "picfast_db",
-  password: "root",
+  user: 'postgres',
+  host: 'localhost',
+  database: 'picfast_db',
+  password: 'root',
   port: 5432,
 });
 
 const getPosts = () => {
   return new Promise(function (resolve, reject) {
-    pool.query(`select post_id, writer_id, title, P.content, picture, P.timestamp, pic_info.date,
+    pool.query(
+      `select post_id, writer_id, title, P.content, picture, P.timestamp, pic_info.date,
     model.id as m_id, model.name as m_name, model.area as m_area, model.gender as m_gender, model.profile_img as m_img,
     photographer.id as p_id, photographer.name as p_name, photographer.area as p_area, photographer.career as p_career, photographer.profile_img as p_img,
     photo_place.place_name, camera.camera_name
@@ -17,66 +18,81 @@ const getPosts = () => {
     inner join model on pic_info.model_id=model.id 
     inner join photographer on pic_info.photographer_id = photographer.id
     inner join photo_place using (place_id)
-    inner join camera using (camera_id)`, (error, results) => {
-      if (error) {
-        reject(error);
+    inner join camera using (camera_id)`,
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
       }
-      resolve(results);
-    });
+    );
   });
 };
 
-const getRate = (user_id) =>{
-  return new Promise(function (resolve, reject){
-    pool.query(`select avg(rate) as total_rate
+const getRate = (user_id) => {
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `select avg(rate) as total_rate
     from comment 
     where (
        comment.photographer_id = $1
     )
-    `,[user_id],(error, results) => {
-      if (error) {
-        reject(error);
+    `,
+      [user_id],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
       }
-      resolve(results);
-    })
+    );
   });
 };
 
-const getPostNum = (user_id) =>{
-  return new Promise(function (resolve, reject){
-    pool.query(`select count(post_id) as post_num
+const getPostNum = (user_id) => {
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `select count(post_id) as post_num
     from post 
     where (
        post.writer_id = $1
     )
-    `,[user_id],(error, results) => {
-      if (error) {
-        reject(error);
+    `,
+      [user_id],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
       }
-      resolve(results);
-    })
+    );
   });
 };
 
 const getMyPost = (user_id) => {
-  return new Promise(function (resolve, reject){
-    pool.query(`select post_id, picture
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `select post_id, picture
     from post 
     where (
        post.writer_id = $1
     )
-    `,[user_id],(error, results) => {
-      if (error) {
-        reject(error);
+    `,
+      [user_id],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
       }
-      resolve(results);
-    })
+    );
   });
-}
+};
 
 const getMyPosts = (user_id) => {
-  return new Promise(function (resolve, reject){
-    pool.query(`select post_id, writer_id, title, P.content, picture, P.timestamp, pic_info.date,
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `select post_id, writer_id, title, P.content, picture, P.timestamp, pic_info.date,
     model.id as m_id, model.name as m_name, model.area as m_area, model.gender as m_gender, model.profile_img as m_img,
     photographer.id as p_id, photographer.name as p_name, photographer.area as p_area, photographer.career as p_career, photographer.profile_img as p_img,
     photo_place.place_name, camera.camera_name
@@ -86,86 +102,219 @@ const getMyPosts = (user_id) => {
     inner join photo_place using (place_id)
     inner join camera using (camera_id)
     where post_id = $1
-    `,[user_id],(error, results) => {
-      if (error) {
-        reject(error);
+    `,
+      [user_id],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
       }
-      resolve(results);
-    })
+    );
   });
-}
+};
 
 const getMyProfile = (user_id) => {
-  return new Promise(function (resolve, reject){
-    pool.query(`select id, name, area, profile_img, career, type
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `select id, name, area, profile_img, career, type
     from (model natural full outer join photographer) join users using (id)
     where (users.id = $1)
-    `,[user_id],(error, results) => {
-      if (error) {
-        reject(error);
+    `,
+      [user_id],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
       }
-      resolve(results);
-    })
+    );
   });
-}
+};
 
 const getType = (user_id) => {
-  return new Promise(function (resolve, reject){
-    pool.query(`select type
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `select type
     from users
     where users.id = $1
-    `,[user_id],(error, results) => {
-      if (error) {
-        reject(error);
+    `,
+      [user_id],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
       }
-      resolve(results);
-    })
+    );
   });
-}
+};
 
 const getComments = (user_id) => {
-  return new Promise(function (resolve, reject){
-    pool.query(`select *
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `select *
     from comment
     where(
        photographer_id = $1
     )
-    `,[user_id],(error, results) => {
-      if (error) {
-        reject(error);
+    `,
+      [user_id],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
       }
-      resolve(results);
-    })
+    );
   });
-}
+};
 
 const getProfile_by_date = (date) => {
-  return new Promise(function (resolve, reject){
-    pool.query(`select id, name, area, profile_img, career, gender, type
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `select id, name, area, profile_img, career, gender, type
     from (model natural full outer join photographer) join schedule using (id) join users using (id)
     where (schedule.date = $1)
-    `,[date],(error, results) => {
-      if (error) {
-        reject(error);
+    `,
+      [date],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
       }
-      resolve(results);
-    })
+    );
   });
-}
+};
 
 const getHotplace = () => {
   return new Promise(function (resolve, reject) {
-    pool.query(`select *
+    pool.query(
+      `select *
     from photo_place
-    order by post_num desc`, (error, results) => {
-      if (error) {
-        reject(error);
+    order by post_num desc`,
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
       }
-      resolve(results);
-    });
+    );
+  });
+};
+
+const checkCamera = (body) => {
+  return new Promise(function (resolve, reject) {
+    const { camera, manu } = body;
+    pool.query(
+      `select camera_id from camera where Camera_name = $1 and manufacture = $2`,
+      [camera, manu],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
+      }
+    );
+  });
+};
+
+const postCamera = (body) => {
+  return new Promise(function (resolve, reject) {
+    const { camera, manu } = body;
+    pool.query(
+      `insert into Camera values (DEFAULT, $1, $2)`,
+      [camera, manu],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve('camera inserted');
+      }
+    );
+  });
+};
+
+const checkPlace = (body) => {
+  return new Promise(function (resolve, reject) {
+    const { place } = body;
+    pool.query(
+      `select place_id from photo_place where place_name = $1`,
+      [place],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
+      }
+    );
+  });
+};
+
+const postPlace = (body) => {
+  return new Promise(function (resolve, reject) {
+    const { place } = body;
+    pool.query(
+      `insert into photo_place values (DEFAULT, $1, 0)`,
+      [place],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve('place inserted');
+      }
+    );
+  });
+};
+
+const checkPicInfo = (body) => {
+  return new Promise(function (resolve, reject) {
+    const { photographer, model, pId, cId, date } = body;
+    pool.query(
+      `select pic_info_id from Pic_info where photographer_id = $1 and model_id = $2 and place_id=$3 and date = $5 and camera_id = $4`,
+      [photographer, model, pId, cId, date],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
+      }
+    );
+  });
+};
+
+const postPicInfo = (body) => {
+  return new Promise(function (resolve, reject) {
+    const { photographer, model, pId, cId, date } = body;
+    pool.query(
+      `insert into Pic_info values(DEFAULT, $1, $2, $3, $5, $4)`,
+      [photographer, model, pId, cId, date],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve('picture info inserted');
+      }
+    );
   });
 };
 
 module.exports = {
-  getPosts, getRate, getPostNum, getMyPost, getMyPosts, getMyProfile, getType, getComments, getProfile_by_date, getHotplace
+  getPosts,
+  getRate,
+  getPostNum,
+  getMyPost,
+  getMyPosts,
+  getMyProfile,
+  getType,
+  getComments,
+  getProfile_by_date,
+  getHotplace,
+  checkCamera,
+  postCamera,
+  checkPlace,
+  postPlace,
+  checkPicInfo,
+  postPicInfo,
 };
