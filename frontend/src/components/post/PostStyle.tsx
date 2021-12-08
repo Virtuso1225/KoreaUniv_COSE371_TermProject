@@ -122,6 +122,5 @@ export const Delete = styled.div`
   text-decoration: none;
   font-size: 20px;
   font-family: 'SCDreamRegular';
-  position: absolute;
-  left: 750px;
+  margin-left: 350px;
 `;

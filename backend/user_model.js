@@ -370,6 +370,43 @@ const deletePost = (post_id) => {
   });
 };
 
+const deletePlace = (place_name) => {
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `
+      with p_id_table as(
+        select place_id as p_id from photo_place where place_name = $1
+      )
+      update Photo_place set post_num = post_num - 1 from p_id_table where place_id=p_id`,
+      [place_name],
+      (error, results) => {
+        if (error) {
+          console.log(error);
+          reject(error);
+        }
+        resolve(results);
+      }
+    );
+  });
+};
+
+const getProfile_by_id = (id) => {
+  const realid = id + '%';
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `select id, profile_img from (model natural full outer join photographer) join users using (id)
+      where id like $1`,
+      [realid],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results);
+      }
+    );
+  });
+};
+
 module.exports = {
   getPosts,
   getRate,
@@ -390,4 +427,6 @@ module.exports = {
   inserPost,
   updatePlaces,
   deletePost,
+  deletePlace,
+  getProfile_by_id,
 };

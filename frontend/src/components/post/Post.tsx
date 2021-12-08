@@ -108,7 +108,7 @@ const Post: React.FC<postProps> = ({
   };
 
   const deleteHandler = () => {
-    fetch(`http://localhost:3001/delete/${post_id}`, {
+    fetch(`http://localhost:3001/delete/${post_id}/${place_name}`, {
       method: 'DELETE',
     }).then(() => {
       window.location.href = '/';

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   FileButton,
   Inputs,
@@ -118,7 +118,7 @@ const Newpost: React.FC = () => {
   };
 
   return (
-    <>
+    <div style={{ marginTop: '100px' }}>
       <NewpostButton onClick={onClick}>x</NewpostButton>
       <NewpostWrapper>
         <NewpostCard>
@@ -187,7 +187,7 @@ const Newpost: React.FC = () => {
           <SubmitButton onClick={PostSubmit}>게시물 추가</SubmitButton>
         </NewpostCard>
       </NewpostWrapper>
-    </>
+    </div>
   );
 };
 

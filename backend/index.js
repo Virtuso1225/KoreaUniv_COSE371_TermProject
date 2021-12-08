@@ -207,9 +207,14 @@ app.post('/create/post', (req, res) => {
     });
 });
 
-app.post('/update/places', (req, res) => {
+app.delete('/delete/:post_id/:place_name', (req, res) => {
   user_models
-    .updatePlaces(req.body)
+    .deletePost(req.params.post_id)
+    .then(() => {
+      return user_models.deletePlace(req.params.place_name).then((res) => {
+        return res;
+      });
+    })
     .then((response) => {
       res.status(200).send(response);
     })
@@ -218,11 +223,11 @@ app.post('/update/places', (req, res) => {
     });
 });
 
-app.delete('/delete/:post_id', (req, res) => {
+app.get('/searchuser/:user_id', (req, res) => {
   user_models
-    .deletePost(req.params.post_id)
+    .getProfile_by_id(req.params.user_id)
     .then((response) => {
-      res.status(200).send(response);
+      res.status(200).send(response['rows']);
     })
     .catch((error) => {
       res.status(500).send(error);

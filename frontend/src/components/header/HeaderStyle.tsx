@@ -10,13 +10,15 @@ export const HeaderWrapper = styled.div`
   width: 1094px;
   height: 60px;
   border-radius: 36px;
-  margin-top: 30px;
   display: flex;
   align-items: center;
-  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.16), -10px -10px 20px #ffffff;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.16);
   justify-content: space-around;
   padding-left: 50px;
   padding-right: 50px;
+  background-color: white;
+  position: fixed;
+  z-index: 5;
 `;
 
 export const HeaderTitle = styled.div`
@@ -72,4 +74,17 @@ export const Search = styled.input`
     transition: 0.4s;
     border-color: transparent;
   }
+`;
+
+interface viewProps {
+  isSelected: boolean;
+}
+export const SearchBox = styled.div<viewProps>`
+  display: ${(props) => (props.isSelected ? 'flex' : 'none')};
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 500px;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.16);
+  z-index: 1;
 `;
