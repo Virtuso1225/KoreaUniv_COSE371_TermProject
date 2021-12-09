@@ -179,7 +179,7 @@ app.post('/create/pictureinfo', (req, res) => {
             return res;
           })
           .catch((error) => {
-            res.status(500).send(error);
+            return error;
           });
       } else return response;
     })
@@ -195,7 +195,8 @@ app.post('/create/post', (req, res) => {
   user_models
     .inserPost(req.body)
     .then(() => {
-      return user_models.updatePlaces(req.body).then((response) => {
+      const { place } = req.body;
+      return user_models.updatePlace(place).then((response) => {
         return response;
       });
     })
@@ -211,7 +212,7 @@ app.delete('/delete/:post_id/:place_name', (req, res) => {
   user_models
     .deletePost(req.params.post_id)
     .then(() => {
-      return user_models.deletePlace(req.params.place_name).then((res) => {
+      return user_models.updatePlace(req.params.place_name).then((res) => {
         return res;
       });
     })
@@ -259,6 +260,28 @@ app.get('/get/reserved/:id', (req, res) => {
 app.delete('/delete/date/:id/:date', (req, res) => {
   user_models
     .deleteDate(req.params)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.post('/post/comment', (req, res) => {
+  user_models
+    .postComment(req.body)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.delete('/comment/delete/:comment_id', (req, res) => {
+  user_models
+    .deleteComment(req.params.comment_id)
     .then((response) => {
       res.status(200).send(response);
     })

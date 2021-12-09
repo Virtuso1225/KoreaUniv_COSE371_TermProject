@@ -157,7 +157,7 @@ const getComments = (user_id) => {
     from comment
     where(
        photographer_id = $1
-    )
+    ) order by comment_id desc
     `,
       [user_id],
       (error, results) => {
@@ -307,7 +307,6 @@ const postPicInfo = (body) => {
       [camera, manu, place, photographer, model, date],
       (error, results) => {
         if (error) {
-          console.log(error);
           reject(error);
         }
         resolve(results);
@@ -333,26 +332,6 @@ const inserPost = (body) => {
   });
 };
 
-const updatePlaces = (body) => {
-  return new Promise(function (resolve, reject) {
-    const { place } = body;
-    pool.query(
-      `with p_id_table as(
-        select place_id as p_id from photo_place where place_name = $1
-      )
-      update Photo_place set post_num = post_num + 1 from p_id_table where place_id=p_id`,
-      [place],
-      (error, results) => {
-        if (error) {
-          console.log(error);
-          reject(error);
-        }
-        resolve('all inserted!');
-      }
-    );
-  });
-};
-
 const deletePost = (post_id) => {
   return new Promise(function (resolve, reject) {
     pool.query(
@@ -370,14 +349,17 @@ const deletePost = (post_id) => {
   });
 };
 
-const deletePlace = (place_name) => {
+const updatePlace = (place_name) => {
   return new Promise(function (resolve, reject) {
     pool.query(
-      `
-      with p_id_table as(
+      `with p_id_table as(
         select place_id as p_id from photo_place where place_name = $1
-      )
-      update Photo_place set post_num = post_num - 1 from p_id_table where place_id=p_id`,
+    )
+    update Photo_place set post_num = (select count(post_id)
+                from post natural join pic_info, p_id_table
+                where pic_info.place_id=p_id)
+                from p_id_table
+                where photo_place.place_id = p_id`,
       [place_name],
       (error, results) => {
         if (error) {
@@ -411,7 +393,7 @@ const postReserve = (body) => {
   return new Promise(function (resolve, reject) {
     const { id, date } = body;
     pool.query(
-      `insert into schedule values ($1, $2, null, null)`,
+      `insert into schedule values ($1, $2)`,
       [id, date],
       (error, results) => {
         if (error) {
@@ -451,6 +433,40 @@ const deleteDate = (params) => {
     );
   });
 };
+
+const postComment = (body) => {
+  return new Promise(function (resolve, reject) {
+    const { Commentor_id, photographer_id, Rate, Content } = body;
+    pool.query(
+      `insert into comment values (Default, $1, $2, $3, $4);`,
+      [Commentor_id, photographer_id, Rate, Content],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve('success');
+      }
+    );
+  });
+};
+
+const deleteComment = (comment_id) => {
+  console.log(comment_id);
+  return new Promise(function (resolve, reject) {
+    pool.query(
+      `delete from comment where comment_id = $1`,
+      [comment_id],
+      (error, results) => {
+        if (error) {
+          console.log(error);
+          reject(error);
+        }
+        resolve(results);
+      }
+    );
+  });
+};
+
 module.exports = {
   getPosts,
   getRate,
@@ -469,11 +485,12 @@ module.exports = {
   checkPicInfo,
   postPicInfo,
   inserPost,
-  updatePlaces,
   deletePost,
-  deletePlace,
+  updatePlace,
   getProfile_by_id,
   postReserve,
   getReserveDate,
   deleteDate,
+  postComment,
+  deleteComment,
 };

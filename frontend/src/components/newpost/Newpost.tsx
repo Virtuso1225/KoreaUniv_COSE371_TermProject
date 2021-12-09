@@ -78,6 +78,9 @@ const Newpost: React.FC = () => {
             date,
           }),
         }).then((res) => {
+          if (res.status === 500) {
+            throw new Error('pic_info_error');
+          }
           return res;
         });
       })
@@ -101,6 +104,9 @@ const Newpost: React.FC = () => {
       })
       .then(() => {
         window.location.href = '/';
+      })
+      .catch((error) => {
+        alert('잘못된 정보가 없는지 다시 확인해주세요.');
       });
   };
 

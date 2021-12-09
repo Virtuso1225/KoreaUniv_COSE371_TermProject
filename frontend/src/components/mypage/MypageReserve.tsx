@@ -8,30 +8,43 @@ const MypageReserve: React.FC = () => {
   const params = useParams();
   const current = params.user_id;
   const [isOpen, setIsOpen] = useState(false);
-  const [alert, setAlert] = useState(false);
+  const [alerts, setAlerts] = useState(false);
   const [input, setInput] = useState('');
   const onClick = () => {
     setIsOpen(!isOpen);
   };
   const submitAlert = () => {
-    setIsOpen(false);
-    console.log(input);
-    fetch('http://localhost:3001/post/reserve', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: current,
-        date: input,
-      }),
-    })
-      .then((data) => data.status)
-      .then((data) => {
-        if (data === 200) {
-          setAlert(true);
-        }
-      });
+    if (input !== '') {
+      setIsOpen(false);
+      fetch('http://localhost:3001/post/reserve', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: current,
+          date: input,
+        }),
+      })
+        .then((res) => {
+          console.log(res);
+          if (res.status === 500) {
+            throw new Error('중복된 날짜 입니다.');
+          }
+          return res;
+        })
+        .then((data) => data.status)
+        .then((data) => {
+          if (data === 200) {
+            setAlerts(true);
+          }
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    } else {
+      alert('값이 입력되지 않은 상태입니다.');
+    }
   };
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
@@ -39,9 +52,9 @@ const MypageReserve: React.FC = () => {
   return (
     <>
       <Modal
-        isOpen={alert}
+        isOpen={alerts}
         onRequestClose={() => {
-          setAlert(false);
+          setAlerts(false);
           setInput('');
         }}
         style={{
