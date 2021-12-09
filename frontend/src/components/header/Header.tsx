@@ -7,13 +7,16 @@ import {
   HeaderWrapper,
   MypageLink,
   PageLink,
+  ResultProfile,
+  ResultRowWrapper,
+  ResultUser,
   Search,
   SearchBox,
 } from './HeaderStyle';
 
 interface profileProps {
   id: string;
-  proflie_img: string;
+  profile_img: string;
 }
 
 const Header: React.FC = () => {
@@ -32,6 +35,7 @@ const Header: React.FC = () => {
     fetch(`http://localhost:3001/searchuser/${e.target.value}`)
       .then((res) => res.json())
       .then((data: profileProps[]) => {
+        console.log(data);
         setResults(data);
       })
       .then(() => {
@@ -50,7 +54,6 @@ const Header: React.FC = () => {
           />
           <PageLink to="/reserve">예약</PageLink>
           <PageLink to="/place">핫플레이스</PageLink>
-          {/* <PageLink to="/char_kak">마이페이지</PageLink> */}
           <MypageLink onClick={projectClick}>마이페이지</MypageLink>
         </HeaderWrapper>
       </HeaderContainer>
@@ -60,12 +63,13 @@ const Header: React.FC = () => {
         style={{
           overlay: {
             position: 'fixed',
-            top: 80,
+            top: 60,
             left: -100,
             right: 0,
             bottom: 0,
             backgroundColor: 'transparent',
             zIndex: 0,
+            transition: '2s',
           },
           content: {
             zIndex: 0,
@@ -78,18 +82,17 @@ const Header: React.FC = () => {
             WebkitOverflowScrolling: 'touch',
             borderRadius: '4px',
             outline: 'none',
-            padding: '20px',
             display: 'flex',
             justifyContent: 'center',
             boxShadow: '6px 6px 12px rgba(0,0,0,0.1)',
+            transition: '1s',
           },
         }}
       >
         <div
           style={{
             display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'center',
+            flexDirection: 'column',
             alignItems: 'center',
           }}
         >
@@ -97,7 +100,18 @@ const Header: React.FC = () => {
             <>
               {results.map((result) => (
                 <div key={result.id}>
-                  {input ? <div>{result?.id}</div> : ''}
+                  {input ? (
+                    <ResultRowWrapper
+                      onClick={() => {
+                        window.location.href = `${result?.id}`;
+                      }}
+                    >
+                      <ResultProfile src={result?.profile_img} />
+                      <ResultUser>{result?.id}</ResultUser>
+                    </ResultRowWrapper>
+                  ) : (
+                    ''
+                  )}
                 </div>
               ))}
             </>

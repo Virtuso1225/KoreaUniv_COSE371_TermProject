@@ -9,20 +9,11 @@ import {
   SubmitButton,
 } from './NewpostStyle';
 
-interface placeProps {
-  place_id: number;
-}
-
-interface cameraProps {
-  camera_id: number;
-}
-
 interface picInfoProps {
   pic_info_id: number;
 }
 
 const Newpost: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [photographer, setPhotographer] = useState('');
   const [model, setModel] = useState('');
@@ -30,11 +21,7 @@ const Newpost: React.FC = () => {
   const [date, setDate] = useState('');
   const [camera, setCamera] = useState('');
   const [manu, setManu] = useState('');
-  const [pId, setPId] = useState(0);
-  const [cId, setCId] = useState(0);
-  const [picInfoId, setPicInfoId] = useState<picInfoProps>();
   const [pic, setPic] = useState<any>();
-  const [inserted, setInserted] = useState(false);
   const onClick = () => {
     window.location.href = '/';
   };

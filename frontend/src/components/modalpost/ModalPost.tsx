@@ -57,6 +57,7 @@ const ModalPost: React.FC<postpreviewProps> = ({
         onRequestClose={() => setIsOpen(false)}
         style={{
           overlay: {
+            zIndex: 10,
             position: 'fixed',
             top: 0,
             left: 0,

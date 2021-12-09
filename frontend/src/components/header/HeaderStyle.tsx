@@ -88,3 +88,30 @@ export const SearchBox = styled.div<viewProps>`
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.16);
   z-index: 1;
 `;
+
+export const ResultRowWrapper = styled.div`
+  display: flex;
+  height: 50px;
+  align-items: center;
+  width: 413px;
+  cursor: pointer;
+  :hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+`;
+
+export const ResultProfile = styled.img`
+  display: flex;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 18px;
+  margin-right: 100px;
+`;
+
+export const ResultUser = styled.div`
+  display: flex;
+  color: #1d1d1d;
+  font-family: 'SCDreamRegular';
+  font-size: 15px;
+`;
