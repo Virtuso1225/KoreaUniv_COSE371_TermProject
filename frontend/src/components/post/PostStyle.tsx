@@ -19,6 +19,7 @@ export const PostCommentCard = styled.div`
   margin-left: 30px;
   flex-direction: column;
   background-color: #fff;
+  flex-wrap: wrap;
 `;
 
 export const PostHeader = styled.div`

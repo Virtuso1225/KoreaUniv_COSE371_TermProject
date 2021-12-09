@@ -36,9 +36,20 @@ const Photographer: React.FC<photographerProps> = ({
     <>
       <PhotographerImg src={p_img} />
       <PhotographerInfo>
-        <Link to={`/${p_id}`} style={{ textDecoration: 'none' }}>
+        <button
+          type="button"
+          onClick={() => {
+            window.location.href = `/${p_id}`;
+          }}
+          style={{
+            textDecoration: 'none',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+        >
           <PhotographerName>작가: {p_id}</PhotographerName>
-        </Link>
+        </button>
         <PhotographerCareer>경력: {p_career}~</PhotographerCareer>
         <PhotographerCareer>활동지역: {p_area}</PhotographerCareer>
       </PhotographerInfo>
@@ -57,9 +68,20 @@ const Model: React.FC<modelProps> = ({
     <>
       <PhotographerImg src={m_img} />
       <PhotographerInfo>
-        <Link to={`/${m_id}`} style={{ textDecoration: 'none' }}>
+        <button
+          type="button"
+          onClick={() => {
+            window.location.href = `/${m_id}`;
+          }}
+          style={{
+            textDecoration: 'none',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+        >
           <PhotographerName>모델: {m_id}</PhotographerName>
-        </Link>
+        </button>
         <PhotographerCareer>성별: {m_gender}</PhotographerCareer>
         <PhotographerCareer>활동지역: {m_area}</PhotographerCareer>
       </PhotographerInfo>
