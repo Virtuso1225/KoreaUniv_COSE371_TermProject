@@ -14,6 +14,8 @@ import {
 } from './MypageProfileStyle';
 import MypagePost from './MypagePost';
 import MypageReview from './MypageReview';
+import MypageReserve from './MypageReserve';
+import MypageReserveDelete from './MypageReserveDelete';
 
 interface rateProps {
   total_rate: number;
@@ -99,6 +101,8 @@ const MypageProfile: React.FC = () => {
             <br />
             <Text>활동지역: {profile[0].area}~</Text>
           </ProfileInfoWrapper>
+          {current === 'char_kak' ? <MypageReserve /> : ''}
+          {current === 'char_kak' ? <MypageReserveDelete /> : ''}
         </ProfileWrapper>
       ) : (
         ''

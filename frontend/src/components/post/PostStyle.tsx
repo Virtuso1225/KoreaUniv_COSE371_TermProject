@@ -7,6 +7,7 @@ export const PostCard = styled.div`
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.15);
   border-radius: 30px;
   flex-direction: column;
+  background-color: #fff;
 `;
 
 export const PostCommentCard = styled.div`
@@ -17,6 +18,7 @@ export const PostCommentCard = styled.div`
   border-radius: 30px;
   margin-left: 30px;
   flex-direction: column;
+  background-color: #fff;
 `;
 
 export const PostHeader = styled.div`
@@ -96,6 +98,7 @@ export const PhotographerCard = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: #fff;
 `;
 
 export const ModelCard = styled.div`
@@ -109,6 +112,7 @@ export const ModelCard = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: #fff;
 `;
 
 export const ColumnWrapper = styled.div`

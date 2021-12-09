@@ -234,6 +234,39 @@ app.get('/searchuser/:user_id', (req, res) => {
     });
 });
 
+app.post('/post/reserve', (req, res) => {
+  user_models
+    .postReserve(req.body)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.get('/get/reserved/:id', (req, res) => {
+  user_models
+    .getReserveDate(req.params.id)
+    .then((response) => {
+      res.status(200).send(response['rows']);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+app.delete('/delete/date/:id/:date', (req, res) => {
+  user_models
+    .deleteDate(req.params)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });

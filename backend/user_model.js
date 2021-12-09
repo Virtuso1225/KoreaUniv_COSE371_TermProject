@@ -407,6 +407,50 @@ const getProfile_by_id = (id) => {
   });
 };
 
+const postReserve = (body) => {
+  return new Promise(function (resolve, reject) {
+    const { id, date } = body;
+    pool.query(
+      `insert into schedule values ($1, $2, null, null)`,
+      [id, date],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve('success');
+      }
+    );
+  });
+};
+
+const getReserveDate = (id) => {
+  return new Promise(function (resolve, reject) {
+    pool.query(`select * from schedule where id=$1`, [id], (error, results) => {
+      if (error) {
+        reject(error);
+      }
+      resolve(results);
+    });
+  });
+};
+
+const deleteDate = (params) => {
+  return new Promise(function (resolve, reject) {
+    const { id, date } = params;
+    pool.query(
+      `delete from schedule
+      where id = $1 and date = $2`,
+      [id, date],
+      (error, results) => {
+        if (error) {
+          console.log(error);
+          reject(error);
+        }
+        resolve(results);
+      }
+    );
+  });
+};
 module.exports = {
   getPosts,
   getRate,
@@ -429,4 +473,7 @@ module.exports = {
   deletePost,
   deletePlace,
   getProfile_by_id,
+  postReserve,
+  getReserveDate,
+  deleteDate,
 };

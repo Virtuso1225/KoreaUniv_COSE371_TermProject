@@ -38,6 +38,7 @@ export const DateSearch = styled.input`
   border: none;
   margin-left: 50px;
   margin-right: 50px;
+  margin-bottom: 30px;
   padding: 10px;
   text-align: center;
   border-radius: 18px;
